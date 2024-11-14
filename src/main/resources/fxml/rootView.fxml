@@ -10,6 +10,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -46,8 +48,22 @@
                               </TableView>
                               <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="5.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#onNewStudentAction" text="Nuevo" />
-                                    <Button mnemonicParsing="false" onAction="#onRemoveStudentAction" text="Eliminar" />
+                                    <Button mnemonicParsing="false" onAction="#onNewStudentAction" text="Nuevo">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/add-32x32.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic></Button>
+                                    <Button mnemonicParsing="false" onAction="#onRemoveStudentAction" text="Eliminar">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/del-32x32.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic></Button>
                                  </children>
                                  <padding>
                                     <Insets bottom="5.0" right="5.0" top="5.0" />
@@ -57,7 +73,7 @@
                         </VBox>
                         <BorderPane fx:id="placeHolderPane" prefHeight="200.0" prefWidth="200.0">
                            <center>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                              <VBox fx:id="emptyBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                  <children>
                                     <Label text="Seleccione un alumno en la tabla de la izquierda." />
                                  </children>

@@ -7,10 +7,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
@@ -35,7 +32,7 @@ public class AlumnoController implements Initializable {
     private CheckBox repiteCheckbox;
 
     @FXML
-    private ChoiceBox<Sexo> sexChoice;
+    private ComboBox<Sexo> sexCombo;
 
     @FXML
     private TextField surnameField;
@@ -58,11 +55,25 @@ public class AlumnoController implements Initializable {
 
         // bindings
 
-        alumno.get().nombreProperty().bind(nameField.textProperty());
-        alumno.get().apellidosProperty().bind(surnameField.textProperty());
-        alumno.get().fechaNacimientoProperty().bind(birthdate.valueProperty());
-        alumno.get().sexoProperty().bind(sexChoice.getSelectionModel().selectedItemProperty());
-        alumno.get().repiteProperty().bind(repiteCheckbox.selectedProperty());
+        alumno.addListener((o , ov , nv) -> {
+            if (ov != null) {
+               nameField.textProperty().unbindBidirectional(ov.nombreProperty());
+               surnameField.textProperty().unbindBidirectional(ov.apellidosProperty());
+               birthdate.valueProperty().unbindBidirectional(ov.fechaNacimientoProperty());
+               sexCombo.valueProperty().unbindBidirectional(ov.sexoProperty());
+               repiteCheckbox.selectedProperty().unbindBidirectional(ov.repiteProperty());
+            }
+            if (nv != null) {
+                nameField.textProperty().bindBidirectional(nv.nombreProperty());
+                surnameField.textProperty().bindBidirectional(nv.apellidosProperty());
+                birthdate.valueProperty().bindBidirectional(nv.fechaNacimientoProperty());
+                sexCombo.valueProperty().bindBidirectional(nv.sexoProperty());
+                repiteCheckbox.selectedProperty().bindBidirectional(nv.repiteProperty());
+            }
+        });
+
+        // populate comboBox
+        sexCombo.getItems().setAll(Sexo.values());
 
 
     }

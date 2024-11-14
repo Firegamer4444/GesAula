@@ -20,7 +20,7 @@ public class GrupoController implements Initializable {
 
     // model
 
-    private ObjectProperty<Grupo> grupo = new SimpleObjectProperty<>(new Grupo());
+    private ObjectProperty<Grupo> grupo = new SimpleObjectProperty<>();
 
     // view
 
@@ -67,13 +67,29 @@ public class GrupoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        grupo.set(new Grupo());
+
         // bindings
-        denominationField.textProperty().bindBidirectional(grupo.get().denominacionProperty());
-        beginDate.valueProperty().bindBidirectional(grupo.get().iniCursoProperty());
-        endingDate.valueProperty().bindBidirectional(grupo.get().finCursoProperty());
-        examsSlider.valueProperty().bindBidirectional(grupo.get().pesosProperty().get().examenesProperty());
-        practicesSlider.valueProperty().bindBidirectional(grupo.get().pesosProperty().get().practicasProperty());
-        aptitudeSlider.valueProperty().bindBidirectional(grupo.get().pesosProperty().get().actitudProperty());
+        grupo.addListener((o , ov , nv) -> {
+            if (ov != null){
+                denominationField.textProperty().unbindBidirectional(ov.denominacionProperty());
+                beginDate.valueProperty().unbindBidirectional(ov.iniCursoProperty());
+                endingDate.valueProperty().unbindBidirectional(ov.finCursoProperty());
+                examsSlider.valueProperty().unbindBidirectional(ov.pesosProperty().get().examenesProperty());
+                practicesSlider.valueProperty().unbindBidirectional(ov.pesosProperty().get().practicasProperty());
+                aptitudeSlider.valueProperty().unbindBidirectional(ov.pesosProperty().get().actitudProperty());
+
+            }
+            if  (nv != null){
+                denominationField.textProperty().bindBidirectional(nv.denominacionProperty());
+                beginDate.valueProperty().bindBidirectional(nv.iniCursoProperty());
+                endingDate.valueProperty().bindBidirectional(nv.finCursoProperty());
+                examsSlider.valueProperty().bindBidirectional(nv.pesosProperty().get().examenesProperty());
+                practicesSlider.valueProperty().bindBidirectional(nv.pesosProperty().get().practicasProperty());
+                aptitudeSlider.valueProperty().bindBidirectional(nv.pesosProperty().get().actitudProperty());
+            }
+        });
+
 
         examsPercent.textProperty().bind(examsSlider.valueProperty().asString("%.2f").concat("%"));
         practicesPercent.textProperty().bind(practicesSlider.valueProperty().asString("%.2f").concat("%"));
